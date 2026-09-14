@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>So sory my baby honey girl ❤️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            /* Background langit biru dengan animasi awan bergerak */
+            background: linear-gradient(to bottom, #7bb2e8, #bfe9ff, #ffffff);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Elemen Awan Bergerak di Background */
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 100px;
+            animation: moveClouds linear infinite;
+            z-index: 1;
+        }
+
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+        }
+
+        .cloud-1 {
+            width: 150px; height: 50px;
+            top: 15%; left: -150px;
+            animation-duration: 35s;
+        }
+        .cloud-1::before { width: 70px; height: 70px; top: -35px; left: 20px; }
+        .cloud-1::after { width: 50px; height: 50px; top: -20px; left: 70px; }
+
+        .cloud-2 {
+            width: 200px; height: 70px;
+            top: 60%; left: -200px;
+            animation-duration: 45s;
+            animation-delay: -10s;
+        }
+        .cloud-2::before { width: 90px; height: 90px; top: -50px; left: 30px; }
+        .cloud-2::after { width: 70px; height: 70px; top: -30px; left: 100px; }
+
+        @keyframes moveClouds {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(100vw + 300px)); }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #d63384;
+            margin-bottom: 15px;
+            font-size: 26px;
+        }
+
+        p {
+            color: #555;
+            font-size: 15px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+            position: relative;
+            min-height: 60px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary {
+            background-color: #ff4d6d;
+            color: white;
+            z-index: 2;
+        }
+
+        .btn-primary:hover {
+            background-color: #e43d5d;
+        }
+
+        /* Tombol yang bisa kabur saat didekati */
+        .btn-dodge {
+            background-color: #6c757d;
+            color: white;
+            position: absolute;
+            transition: all 0.1s ease;
+            z-index: 20;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .emoji {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Elemen Awan Background -->
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+
+    <div class="card" id="cardContainer">
+        <!-- Halaman Utama Permintaan Maaf -->
+        <div id="pageMain">
+            <div class="emoji"></div>
+            <h1>Sory my baby honey kanjeng ratu ku duniaku ...</h1>
+            <p>-Ikan hiu, ikan cucut. I love you, you're so cute
+                      -kaya nya aku ga usah makae google maps deh soal nya aku udah nyasar di hati kamu
+            </p>
+            
+            <div class="btn-container" id="buttonArea">
+                <button class="btn-primary" onclick="bukaMaaf()">Maafin Kamu Kok ❤️</button>
+                <button class="btn-dodge" id="btnKabur" onmouseover="pindahTombol()" ontouchstart="pindahTombol()" onclick="pindahTombol()">Nggak Mau! 😤</button>
+            </div>
+        </div>
+
+        <!-- Halaman Dimaafin (Sukses) -->
+        <div id="pageSuccess" class="hidden">
+            <div class="emoji"></div>
+            <h1>Thankyou my baby honey girl kanjeng ratu</h1>
+            <p>Ikan ikan apa yang ga bisa mendengar?
+                ikan tuna, tuna rungu hehehheheh Lope u buat kamu sakebon❤️
+            </p>
+            <button class="btn-primary" onclick="resetHalaman()">Kembali dari Awal</button>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi Tombol Kabur ketika kursor mendekat atau disentuh di HP
+        function pindahTombol() {
+            const btn = document.getElementById('btnKabur');
+            const card = document.getElementById('cardContainer');
+            
+            // Mengatur batas acak di dalam kartu
+            const maxX = card.clientWidth - btn.clientWidth - 30;
+            const maxY = card.clientHeight - btn.clientHeight - 80;
+            
+            const randomX = Math.floor(Math.random() * maxX) - (maxX / 2);
+            const randomY = Math.floor(Math.random() * maxY) - (maxY / 2);
+
+            btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        // Fungsi Navigasi ke Halaman Sukses
+        function bukaMaaf() {
+            document.getElementById('pageMain').classList.add('hidden');
+            document.getElementById('pageSuccess').classList.remove('hidden');
+        }
+
+        // Fungsi Reset Halaman
+        function resetHalaman() {
+            document.getElementById('pageSuccess').classList.add('hidden');
+            document.getElementById('pageMain').classList.remove('hidden');
+            
+            // Kembalikan posisi tombol ke awal
+            const btn = document.getElementById('btnKabur');
+            btn.style.transform = `translate(0px, 0px)`;
+        }
+    </script>
+</body>
+</html>
